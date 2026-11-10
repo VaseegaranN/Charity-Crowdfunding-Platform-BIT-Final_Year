@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "Update User Profile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var table = ViewBag.Table as string ?? "";
+    bool isGobi = table == "gobi_users";
+    string prefix = isGobi ? "gobi_user" : "sathy_user";
+
+    string name = "", dob = "", phone = "", place = "", email = "", pwd = "", address = "", mainArea = "", accStatus = "", mpin = "";
+    int id = 0;
+
+    if (isGobi && Model is UnityFunds.Web.Models.GobiUser g)
+    {
+        id = g.gobi_user_id; name = g.gobi_user_name; dob = g.gobi_user_dob; phone = g.gobi_user_phone_number;
+        place = g.gobi_user_place; email = g.gobi_user_email; pwd = "";
+        address = g.gobi_user_address; mainArea = g.gobi_user_main_area; accStatus = g.gobi_user_acc_status; mpin = "";
+    }
+<div class="back-button">
+        
+    </div>
+    <div class="container">
+        <h1>Update User Profile</h1>
+        <form method="post" action="/Admin/UserUpdate?table=@table">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="table" value="@table">
+            <input type="hidden" name="@(prefix + "_id")" value="@id">
+
+            <label for="name">User Name:</label>
+            <input type="text" name="@(prefix + "_name")" value="@name" required><br>
+
+            <label for="dob">User DOB:</label>
+            <input type="date" name="@(prefix + "_dob")" value="@dob" required><br>
+
+            <label for="phone">User Phone:</label>
+            <input type="tel" name="@(prefix + "_phone_number")" pattern="[0-9]{10}" value="@phone" required><br>
+
+            <label for="email">User Email:</label>
+            <input type="email" name="@(prefix + "_email")" value="@email" required><br>
+
+            <label for="pwd">User Password:</label>
+            <input type="password" name="@(prefix + "_password")" id="user_pwd" value="@pwd" autocomplete="new-password" placeholder="Leave blank to keep current">
+            <i class="fas fa-eye toggle-password"></i>
+
+            <label for="place">User Location:</label>
+            <select name="@(prefix + "_place")" required>
+                <option value="-- Select Option --">-- Select Option --</option>
+                @if (place == "Gobichettipalayam")
+                {
+                    <option value="Gobichettipalayam" selected>Gobichettipalayam</option>
+                    <option value="Sathyamangalam">Sathyamangalam</option>
+                }
+                else
+                {
+                    <option value="Gobichettipalayam">Gobichettipalayam</option>
+                    <option value="Sathyamangalam" selected>Sathyamangalam</option>
+                }
+            </select><br>
+
+            <label for="address">User Address:</label>
+            <input type="text" name="@(prefix + "_address")" value="@address" required><br>
+
+            <label for="mainArea">User Main Area:</label>
+            <input type="text" name="@(prefix + "_main_area")" value="@mainArea" required><br>
+
+            <label for="accStatus">User Account Status:</label>
+            <select name="@(prefix + "_acc_status")" required>
+                @if (accStatus == "UNBLOCKED")
+                {
+                    <option value="UNBLOCKED" selected>UNBLOCKED</option>
+                    <option value="BLOCKED">BLOCKED</option>
+                }
+                else
+                {
+                    <option value="UNBLOCKED">UNBLOCKED</option>
+                    <option value="BLOCKED" selected>BLOCKED</option>
+                }
+            </select><br>
+
+            <label for="mpin">User MPIN:</label>
+            <input type="text" name="@(prefix + "_mpin")" value="@mpin" placeholder="Leave blank to keep current"><br>
+
+            <input type="submit" value="Update User Profile">
+        </form>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('user_pwd');
+        const togglePassword = document.querySelector('.toggle-password');
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+}

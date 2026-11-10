@@ -1,0 +1,529 @@
+
+/* ==========================================================
+   UNITYFUNDS AUTHENTICATION - FINAL LAYOUT
+   Login: centered glass card
+   Signup: two-column introduction + registration form
+   Roles: Donor, NGO, Logistics, Admin
+   ========================================================== */
+
+/* ---------- Global authentication background ---------- */
+
+body.uf-auth-page {
+    --uf-dark: #123b2b;
+    --uf-green: #286b4c;
+    --uf-lime: #c5f36b;
+    --uf-cream: #f7f8f1;
+
+    margin: 0 !important;
+    min-height: 100vh !important;
+    color: #ffffff !important;
+
+    font-family: "DM Sans", sans-serif !important;
+
+    background:
+        radial-gradient(ellipse at 12% 10%, rgba(201, 232, 183, .8), transparent 35%),
+        radial-gradient(ellipse at 90% 75%, rgba(91, 157, 104, .5), transparent 38%),
+        linear-gradient(140deg, #a9cda8 0%, #4e8b65 42%, #123b2b 100%) !important;
+
+    background-attachment: fixed !important;
+    overflow-x: hidden !important;
+}
+
+body.uf-auth-page *,
+body.uf-auth-page *::before,
+body.uf-auth-page *::after {
+    box-sizing: border-box;
+}
+
+/* ---------- Main layout ---------- */
+
+body.uf-auth-page > main.uf-auth {
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 35px clamp(20px, 5vw, 75px) !important;
+
+    display: grid !important;
+    grid-template-columns: minmax(300px, .85fr) minmax(420px, 1.15fr);
+    align-items: center !important;
+    gap: clamp(30px, 5vw, 80px) !important;
+}
+
+/* ---------- Brand / introduction panel ---------- */
+
+.uf-auth-page .uf-auth__brand {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.uf-auth-page .uf-auth__brand-top {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+
+    margin-bottom: 65px !important;
+
+    color: #ffffff !important;
+    font-family: "Manrope", sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+}
+
+.uf-auth-page .uf-auth__mark {
+    width: 45px !important;
+    height: 45px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #153c2b !important;
+    background: var(--uf-lime) !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+
+    font-family: "Manrope", sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+}
+
+.uf-auth-page .uf-auth__brand-body {
+    display: block !important;
+    max-width: 540px !important;
+}
+
+.uf-auth-page .uf-auth__eyebrow {
+    display: inline-block !important;
+    margin-bottom: 20px !important;
+
+    color: #d9f5b0 !important;
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+}
+
+.uf-auth-page .uf-auth__brand h1 {
+    max-width: 12ch !important;
+    margin: 0 0 22px !important;
+
+    color: #ffffff !important;
+    font-family: "Manrope", sans-serif !important;
+    font-size: clamp(36px, 4.5vw, 62px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -2px !important;
+    line-height: 1.08 !important;
+}
+
+.uf-auth-page .uf-auth__brand p {
+    max-width: 440px !important;
+    margin: 0 0 25px !important;
+
+    color: #e7f3e6 !important;
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+.uf-auth-page .uf-auth__points {
+    display: grid !important;
+    gap: 13px !important;
+    margin: 25px 0 35px !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.uf-auth-page .uf-auth__points li {
+    color: #f2fff0 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+
+.uf-auth-page .uf-auth__points li::before {
+    content: "✓";
+    display: inline-flex;
+    width: 23px;
+    height: 23px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 11px;
+
+    color: #173d2b;
+    background: var(--uf-lime);
+    border-radius: 50%;
+    font-weight: 900;
+}
+
+.uf-auth-page .uf-auth__brand-foot {
+    display: block !important;
+    margin-top: 20px !important;
+    color: rgba(255,255,255,.7) !important;
+    font-size: 12px !important;
+}
+
+/* ---------- Form section ---------- */
+
+.uf-auth-page .uf-auth__main {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+/* ---------- Login and signup cards ---------- */
+
+.uf-auth-page .uf-auth__card,
+.uf-auth-page .uf-auth__card--wide {
+    width: 100% !important;
+    max-width: 700px !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: clamp(25px, 3vw, 42px) !important;
+
+    color: #ffffff !important;
+
+    background: rgba(13, 57, 39, .78) !important;
+    border: 1px solid rgba(255,255,255,.55) !important;
+    border-radius: 25px !important;
+
+    box-shadow:
+        0 25px 70px rgba(0, 35, 20, .28),
+        inset 0 1px 0 rgba(255,255,255,.14) !important;
+
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+}
+
+.uf-auth-page .uf-auth__card--wide {
+    max-width: 850px !important;
+}
+
+/* ---------- Role chip ---------- */
+
+.uf-auth-page .uf-auth__role-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+
+    margin: 0 0 20px !important;
+    padding: 9px 15px !important;
+
+    color: #f5ffe9 !important;
+    background: rgba(255,255,255,.12) !important;
+    border: 1px solid rgba(255,255,255,.3) !important;
+    border-radius: 30px !important;
+
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+.uf-auth-page .uf-auth__role-dot {
+    width: 8px !important;
+    height: 8px !important;
+    background: var(--uf-lime) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 0 4px rgba(197,243,107,.15) !important;
+}
+
+/* ---------- Form heading ---------- */
+
+.uf-auth-page .uf-auth__head {
+    margin-bottom: 27px !important;
+}
+
+.uf-auth-page .uf-auth__head h1,
+.uf-auth-page .uf-auth__head h2 {
+    margin: 0 0 10px !important;
+
+    color: #ffffff !important;
+    font-family: "Manrope", sans-serif !important;
+    font-size: clamp(27px, 3vw, 36px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px !important;
+    line-height: 1.2 !important;
+}
+
+.uf-auth-page .uf-auth__head p {
+    margin: 0 !important;
+    color: #dceee0 !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+}
+
+/* ---------- Signup section headings ---------- */
+
+.uf-auth-page .uf-section-title {
+    margin: 28px 0 17px !important;
+    padding-bottom: 10px !important;
+
+    color: #eaffdf !important;
+    border-bottom: 1px solid rgba(255,255,255,.2) !important;
+
+    font-family: "Manrope", sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 800 !important;
+}
+
+/* ---------- Form layout ---------- */
+
+.uf-auth-page form {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.uf-auth-page .uf-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 17px 20px !important;
+}
+
+.uf-auth-page .uf-field {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    margin: 0 0 17px !important;
+}
+
+/* ---------- Labels ---------- */
+
+.uf-auth-page .uf-field label,
+.uf-auth-page label {
+    display: block !important;
+    margin: 0 0 8px !important;
+
+    color: #f1ffed !important;
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+/* ---------- Inputs ---------- */
+
+.uf-auth-page .uf-field input,
+.uf-auth-page .uf-field select,
+.uf-auth-page .uf-field textarea,
+.uf-auth-page input:not([type="checkbox"]):not([type="radio"]),
+.uf-auth-page select,
+.uf-auth-page textarea {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 50px !important;
+    height: 50px !important;
+
+    padding: 0 15px !important;
+
+    color: #173b2b !important;
+    background: #f8fbf5 !important;
+    border: 1px solid #dce9d9 !important;
+    border-radius: 12px !important;
+
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.uf-auth-page .uf-field textarea,
+.uf-auth-page textarea {
+    height: auto !important;
+    min-height: 110px !important;
+    padding: 13px 15px !important;
+}
+
+.uf-auth-page input::placeholder,
+.uf-auth-page textarea::placeholder {
+    color: #849589 !important;
+    opacity: 1 !important;
+}
+
+.uf-auth-page input:focus,
+.uf-auth-page select:focus,
+.uf-auth-page textarea:focus {
+    border-color: #c5f36b !important;
+    box-shadow: 0 0 0 4px rgba(197,243,107,.2) !important;
+}
+
+/* ---------- File upload ---------- */
+
+.uf-auth-page input[type="file"] {
+    height: auto !important;
+    min-height: 50px !important;
+    padding: 10px !important;
+    color: #173b2b !important;
+    background: #f8fbf5 !important;
+}
+
+/* ---------- Submit button ---------- */
+
+.uf-auth-page .uf-btn,
+.uf-auth-page button[type="submit"] {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    height: 54px !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin-top: 12px !important;
+    padding: 0 22px !important;
+
+    color: #153b29 !important;
+    background: linear-gradient(110deg, #dff5c8, #c5f36b) !important;
+    border: 0 !important;
+    border-radius: 50px !important;
+
+    font-family: "Manrope", sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+
+    cursor: pointer !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,.16) !important;
+    transition: transform .2s ease, box-shadow .2s ease !important;
+}
+
+.uf-auth-page .uf-btn:hover,
+.uf-auth-page button[type="submit"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 14px 30px rgba(0,0,0,.23) !important;
+}
+
+/* ---------- Links and footer text ---------- */
+
+.uf-auth-page .uf-auth__alt {
+    margin: 22px 0 0 !important;
+    color: #e3f2e4 !important;
+    text-align: center !important;
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+}
+
+.uf-auth-page .uf-auth__alt a {
+    color: #d1f58d !important;
+    font-weight: 800 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+}
+
+.uf-auth-page .uf-security {
+    color: #efffed !important;
+    background: rgba(255,255,255,.1) !important;
+    border: 1px solid rgba(255,255,255,.2) !important;
+}
+
+/* ---------- Login-specific layout ---------- */
+/* Login markup uses uf-auth--center */
+
+body.uf-auth-page:has(.uf-auth--center) > main.uf-auth {
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-items: center !important;
+}
+
+body.uf-auth-page:has(.uf-auth--center) .uf-auth__brand {
+    display: none !important;
+}
+
+body.uf-auth-page:has(.uf-auth--center) .uf-auth__main {
+    min-height: calc(100vh - 70px) !important;
+    align-items: center !important;
+}
+
+body.uf-auth-page:has(.uf-auth--center) .uf-auth__card {
+    width: min(100%, 530px) !important;
+}
+
+/* ---------- Admin accent ---------- */
+
+.uf-role--admin .uf-auth__role-dot {
+    background: #e5cb83 !important;
+    box-shadow: 0 0 0 4px rgba(229,203,131,.16) !important;
+}
+
+.uf-role--admin .uf-auth__role-chip {
+    border-color: rgba(229,203,131,.4) !important;
+}
+
+/* ---------- Responsive layout ---------- */
+
+@media (max-width: 950px) {
+    body.uf-auth-page > main.uf-auth {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 25px !important;
+        padding: 25px 18px !important;
+    }
+
+    .uf-auth-page .uf-auth__brand {
+        padding: 10px 5px !important;
+    }
+
+    .uf-auth-page .uf-auth__brand-top {
+        margin-bottom: 25px !important;
+    }
+
+    .uf-auth-page .uf-auth__brand h1 {
+        max-width: 18ch !important;
+        font-size: 38px !important;
+    }
+
+    .uf-auth-page .uf-auth__points,
+    .uf-auth-page .uf-auth__brand-foot {
+        display: none !important;
+    }
+
+    body.uf-auth-page:has(.uf-auth--center) .uf-auth__brand {
+        display: none !important;
+    }
+
+    body.uf-auth-page:has(.uf-auth--center) .uf-auth__main {
+        min-height: calc(100vh - 50px) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body.uf-auth-page > main.uf-auth {
+        padding: 18px 13px !important;
+    }
+
+    .uf-auth-page .uf-auth__card,
+    .uf-auth-page .uf-auth__card--wide {
+        padding: 24px 18px !important;
+        border-radius: 19px !important;
+    }
+
+    .uf-auth-page .uf-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0 !important;
+    }
+
+    .uf-auth-page .uf-auth__head h2 {
+        font-size: 27px !important;
+    }
+}

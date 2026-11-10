@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css?family=Special+Elite');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
+
+body {
+   padding:0;
+   margin:0;
+}
+
+.logo img
+{
+    width:10px;
+    margin-top:7px;
+    left:60px;
+}
+.brand h1
+{
+  font-family: 'Lato', sans-serif;
+  color:#780d9b;
+  margin-left:25px;
+}
+.brand h3
+{
+  margin-top:-20px;
+font-family: 'Proza Libre', sans-serif;
+  margin-left:30px;
+
+}
+.header
+{
+  width:100%;
+  height:80px;
+  border-bottom:1px solid #ccc;
+}
+.nav-menu {
+    text-align: right; /* Align menu to the right */
+    margin-right:70px;
+    margin-top:-50px;
+    font-size:20px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .nav-menu a {
+    text-decoration: none; /* Remove text decoration */
+    color:#780d9b;
+    font-weight: bold;
+    padding:8px;
+    margin: 0 10px; /* Add some space between menu items */
+  }
+
+  .nav-menu a:hover {
+    box-shadow: inset 200px 10px 0 0 #780d9b;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+   color: white;
+  }
+
+  .nav-list,
+  .nav-list-dropdown {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block; /* Display list items horizontally */
+  }
+
+  .nav-list-dropdown {
+    display: none; /* Hide dropdown by default */
+    margin-top:5px;
+    position: absolute;
+    background-color: #fff;
+    padding: 10px;
+    z-index: 1;
+  
+  }
+
+  .nav-list-dropdown li {
+    display: block;
+    padding: 10px;
+    color: #000;
+  }
+
+  .nav-list:hover .nav-list-dropdown {
+    display: block; /* Show dropdown on hover */
+  }
+
+  .banner
+  {
+    font-family: 'Special Elite', cursive;
+	  background: #780d9b;
+    opacity:0.8;
+    width:100%;
+    height:300px;
+	color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+  }
+  
+  blockquote {
+    font-weight: 100;
+    font-size: 2rem;
+    max-width: 600px;
+    line-height: 1.4;
+    position: relative;
+    margin: 0;
+    padding: .5rem;
+    animation: grow 1s
+  }
+  @keyframes grow {
+	  0% { transform: scale(.2); }
+	100% { transform: scale(1); }
+}
+  
+  blockquote:before,
+  blockquote:after {
+    position: absolute;
+    color: #f1efe6;
+    font-size: 8rem;
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  blockquote:before {
+    content: '“';
+    left: -5rem;
+    top: -2rem;
+  }
+  
+  blockquote:after {
+    content: '”';
+    right: -5rem;
+    bottom: 1rem;
+  }
+
+  .brief-desc
+  {
+    display: flex;
+  }
+
+  .brief-desc p
+  {
+    font-family: 'Proza Libre', sans-serif;
+    font-size:25px;
+    width:50%;
+    font-weight:500;
+    margin-left:30px;
+  }
+
+  .brief-desc img
+  {
+    width: 20%;
+    margin-top:10px;
+    margin-right: 10px;
+
+    --b: 8px;  /* border thickness*/
+    --s: 60px; /* size of the corner*/
+    --g: 14px; /* the gap*/
+    --c: #ecca41; 
+  
+    padding: calc(var(--b) + var(--g));
+    background-image:
+      conic-gradient(from  90deg at top    var(--b) left  var(--b), #0000 25%, var(--c) 0),
+      conic-gradient(from -90deg at bottom var(--b) right var(--b), #0000 25%, var(--c) 0);
+    background-position:
+      var(--_p, 0%) var(--_p, 0%),
+      calc(100% - var(--_p, 0%)) calc(100% - var(--_p, 0%));
+    background-size: var(--s) var(--s);
+    background-repeat: no-repeat;
+    transition: 
+      background-position .3s var(--_i,.3s), 
+      background-size .3s calc(.3s - var(--_i, .3s));
+  }
+
+.brief-desc .anotherimg{
+  background-image:
+  conic-gradient(from 180deg at top    var(--b) right var(--b),#0000 25%,var(--c) 0),
+  conic-gradient(from   0deg at bottom var(--b) left  var(--b),#0000 25%,var(--c) 0);
+background-position:
+  calc(100% - var(--_p,0%)) var(--_p,0%),
+  var(--_p,0%) calc(100% - var(--_p,0%));
+}
+
+img:hover {
+  background-size: calc(100% - var(--g)) calc(100% - var(--g));
+  --_p: calc(var(--g)/2);
+  --_i: 0s;
+}
+
+.features 
+{
+   text-align:center;
+   color:#555;
+  font-family:'Roboto';
+  font-weight:300;
+  font-size:32px;
+  padding-top: 10vh;
+  height:20vh;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -webkit-transform: translate3d(0,0,0);
+}
+
+.features div {
+  display:inline-block;
+  overflow: hidden;
+  white-space:nowrap;
+}
+
+.features div:first-of-type {    /* For increasing performance 
+                       ID/Class should've been used. 
+                       For a small demo 
+                       it's okaish for now */
+  animation: showup 7s infinite;
+}
+
+.features div:last-of-type {
+  width:0px;
+  animation: reveal 7s infinite;
+}
+
+.features div:last-of-type span {
+  margin-left:-355px;
+  animation: slidein 7s infinite;
+}
+
+@keyframes showup {
+    0% {opacity:0;}
+    20% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
+}
+
+@keyframes slidein {
+    0% { margin-left:-800px; }
+    20% { margin-left:-800px; }
+    35% { margin-left:0px; }
+    100% { margin-left:0px; }
+}
+
+@keyframes reveal {
+    0% {opacity:0;width:0px;}
+    20% {opacity:1;width:0px;}
+    30% {width:355px;}
+    80% {opacity:1;}
+    100% {opacity:0;width:355px;}
+}
+
+.features-list {
+    margin-top: -70px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line if necessary */
+    justify-content: center; /* Center items horizontally */
+  }
+  
+  .features-list > div {
+    background: rgba(157, 51, 148, 0.179);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px;
+    flex: 1; /* Distribute available space evenly among items */
+    max-width: 300px; /* Limit maximum width of each item */
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease-in-out;
+  }
+  
+
+.features-list > div:hover {
+  background: rgba(255, 255, 255, 0.2);
+  
+}
+
+.features-list h1{
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+}
+
+.features-list p{
+  font-family:'Proza Libre', sans-serif;
+  text-align: center;
+  font-size: 20px;
+}
+
+.black-lives-matter {
+    font-size: 30px;
+    line-height: 100px;
+    margin-left: auto; /* Center the text horizontally */
+    margin-right: auto;
+    font-family: 'Red Hat Display', sans-serif;
+    font-weight: 900;
+    background: url(https://raw.githubusercontent.com/s1mpson/-/master/codepen/black-lives-matter/victim-collage.png);
+    background-size: 40%;
+    background-position: 50% 50%;
+    -webkit-background-clip: text;
+    color: rgba(0,0,0,0.08);
+    animation: zoomout 10s ease 500ms forwards infinite;
+    text-align: center; /* Center the text horizontally */
+  }
+  
+
+@keyframes zoomout {
+  from {
+    background-size: 40%;
+  }
+  to {
+    background-size: 10%;
+  }
+}
+
+.footer{
+  width: 100%;
+  margin-bottom: 0;
+  background-color: #913d9e;
+  color: #fff;
+  font-family:'Lato', sans-serif ;
+  text-align: center;
+  padding: 10px;
+}

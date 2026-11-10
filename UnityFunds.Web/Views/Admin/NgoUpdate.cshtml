@@ -1,0 +1,22 @@
+@model UnityFunds.Web.Models.NgoDetails
+@{ ViewData["Title"] = "Update NGO"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+<div>
+        
+        <div class="container">
+            <h1>Update NGO</h1>
+            <form method="post" asp-action="NgoUpdate">
+                <input type="hidden" asp-for="ngo_id" />
+                <label>User Name</label><input asp-for="ngo_user_name" />
+                <label>Position</label><input asp-for="ngo_user_position" />
+                <label>Phone</label><input asp-for="ngo_user_phone" />
+                <label>Email</label><input asp-for="ngo_user_email" />
+                <label>Org Name</label><input asp-for="ngo_org_name" />
+                <label>Org Place</label><input asp-for="ngo_org_place" />
+                <label>Org Phone</label><input asp-for="ngo_org_phone" />
+                <label>Org Email</label><input asp-for="ngo_org_mail" />
+                <label>Status</label><input asp-for="ngo_acc_req_status" />
+                <button type="submit" class="btn">Update</button>
+            </form>
+        </div>
+    </div>

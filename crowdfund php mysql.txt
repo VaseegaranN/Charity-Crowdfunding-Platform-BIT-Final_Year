@@ -1,0 +1,63 @@
+how to run this app?
+$ Get-ChildItem -Force | Select-Object Name, Mode
+Name      Mode  
+----      ----  
+Admin     da----
+Donor     da----
+images    da----
+Logistics da----
+NGO       da----
+index.php -a----
+style.css -a----
+$ Get-Content index.php | Select-Object -First 40
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Proza+Libre&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+…
+Click to expand
+This is a PHP web application (a crowdfunding platform called "UnityFunds"). To run it you need a PHP web server. Let me check what's available on your system.
+$ php -v; if (-not $?) { "PHP not found" }
+php : The term 'php' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+PHP not found
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ php -v; if (-not $?) { "PHP not found" }
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (php:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+PHP isn't on your PATH. Let me check for common install locations.
+$ $paths = @("C:\xampp\php\php.exe","C:\wamp64\bin\php\php*.exe","C:\laragon\bin\php\php*\php.exe","C:\Program Files\PHP\php.exe"); foreach($p in $paths){ Get-ChildItem -Path $p -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName }
+(no output)
+No common PHP installations found either. Let me check if the app uses MySQL too.
+$ Get-ChildItem -Recurse -Filter *.php | Select-Object -First 5 -ExpandProperty FullName; ""; Get-ChildItem -Recurse -Include *.sql, config.php, *.ini -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName
+E:\crowdfund\index.php
+E:\crowdfund\Admin\admin_govn_manage.php
+E:\crowdfund\Admin\admin_govn_update_sep.php
+E:\crowdfund\Admin\admin_landing.php
+E:\crowdfund\Admin\admin_login.php
+✱Grep "mysqli_connect|new PDO|db_connect|localhost" (26 matches)
++ Thought: 405ms
+Here's what this app needs and how to run it:
+Requirements
+This is a PHP + MySQL web application. It connects to a MySQL database called crowdfund on localhost with user root and no password.
+Steps to Run
+1. Install PHP and MySQL (easiest option: install XAMPP (https://www.apachefriends.org/))
+- Download and install XAMPP from the link above
+- This bundles Apache, PHP, and MySQL all together
+2. Set up the database
+- Start Apache and MySQL from the XAMPP Control Panel
+- Open phpMyAdmin at http://localhost/phpmyadmin
+- Create a database named crowdfund
+- Import any .sql file if one exists (check the project folders), or let the signup scripts create tables automatically
+3. Move the project
+- Copy the E:\crowdfund folder into C:\xampp\htdocs\
+4. Access the app
+- Open your browser and go to http://localhost/crowdfund/index.php
+That's it — the app should be running.

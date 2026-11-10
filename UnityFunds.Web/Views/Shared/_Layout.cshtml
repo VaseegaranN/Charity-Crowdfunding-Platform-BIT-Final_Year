@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#142820" />
+    <title>@ViewData["Title"] - UnityFunds</title>   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/unityfunds-refresh.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom"><div class="container"><a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">UnityFunds</a><div class="navbar-nav ms-auto"><a class="nav-link" asp-controller="Campaigns" asp-action="Index">Explore campaigns</a><a class="nav-link" asp-controller="Ngo" asp-action="Login">NGO</a><a class="nav-link" asp-controller="Donor" asp-action="Login">Donor</a><a class="nav-link" asp-controller="Admin" asp-action="Login">Admin</a></div></div></nav>
+    @RenderBody()
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

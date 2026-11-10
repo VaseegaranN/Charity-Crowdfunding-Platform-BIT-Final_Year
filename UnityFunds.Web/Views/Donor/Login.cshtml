@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Donor Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Login - UnityFunds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/unityfunds-refresh.css" />
+</head>
+<body class="uf-auth-page uf-role--donor">
+    <main class="uf-auth uf-auth--center">
+        <aside class="uf-auth__brand">
+            <a class="uf-auth__brand-top" href="/"><span class="uf-auth__mark">U</span> UnityFunds</a>
+            <div class="uf-auth__brand-body">
+                <span class="uf-auth__eyebrow">Donor Portal</span>
+                <h1>Give with confidence. Track every rupee.</h1>
+                <p>Back verified campaigns and see exactly how your contributions create change.</p>
+                <ul class="uf-auth__points">
+                    <li>Browse vetted NGO campaigns</li>
+                    <li>Secure, transparent donations</li>
+                    <li>Follow your impact in real time</li>
+                </ul>
+            </div>
+            <div class="uf-auth__brand-foot">(c) UnityFunds</div>
+        </aside>
+        <section class="uf-auth__main">
+            <div class="uf-auth__card">
+                <div class="uf-auth__role-chip"><span class="uf-auth__role-dot"></span> Donor workspace</div>
+                <div class="uf-auth__head">
+                    <h2>Welcome back</h2>
+                    <p>Sign in to your donor account.</p>
+                </div>
+                @if (ViewBag.Error != null)
+                {
+                    <div class="uf-alert uf-alert--error">@ViewBag.Error</div>
+                }
+                <form method="post" asp-action="Login">
+                    <div class="uf-field">
+                        <label for="email">Email or username</label>
+                        <input id="email" type="text" name="email" placeholder="you@example.com" autocomplete="username" required>
+                    </div>
+                    <div class="uf-field">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                    </div>
+                    <button type="submit" class="uf-btn">Sign in</button>
+                </form>
+                <p class="uf-auth__alt">New to UnityFunds? <a href="/Donor/Signup">Create a donor account</a></p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

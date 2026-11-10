@@ -1,0 +1,138 @@
+@model UnityFunds.Web.Models.DonorDetails
+@{
+    ViewData["Title"] = "Donor Signup";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Signup - UnityFunds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/unityfunds-refresh.css" />
+</head>
+<body class="uf-auth-page uf-role--donor">
+    <main class="uf-auth">
+        <aside class="uf-auth__brand">
+            <a class="uf-auth__brand-top" href="/"><span class="uf-auth__mark">U</span> UnityFunds</a>
+            <div class="uf-auth__brand-body">
+                <span class="uf-auth__eyebrow">Donor Portal</span>
+                <h1>Join a community that gives with purpose.</h1>
+                <p>Create an account to support verified campaigns and follow the impact of every contribution.</p>
+                <ul class="uf-auth__points">
+                    <li>Back campaigns you believe in</li>
+                    <li>Choose your funding and payment style</li>
+                    <li>Secure account recovery questions</li>
+                </ul>
+            </div>
+            <div class="uf-auth__brand-foot">(c) UnityFunds</div>
+        </aside>
+        <section class="uf-auth__main">
+            <div class="uf-auth__card uf-auth__card--wide">
+                <div class="uf-auth__role-chip"><span class="uf-auth__role-dot"></span> Donor registration</div>
+                <div class="uf-auth__head">
+                    <h2>Create your donor account</h2>
+                    <p>It only takes a minute. Fields marked * are required.</p>
+                </div>
+                <form method="post" asp-action="Signup">
+                    <h3 class="uf-section-title">Personal information</h3>
+                    <div class="uf-grid">
+                        <div class="uf-field">
+                            <label asp-for="donor_user_name">Full name *</label>
+                            <input asp-for="donor_user_name" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_email">Email address *</label>
+                            <input asp-for="donor_user_email" type="email" placeholder="jane@example.com" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_phone">Phone number *</label>
+                            <input asp-for="donor_user_phone" type="tel" placeholder="+1 555 000 1234" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_gender">Gender *</label>
+                            <select asp-for="donor_user_gender">
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="uf-section-title">Address</h3>
+                    <div class="uf-grid">
+                        <div class="uf-field">
+                            <label asp-for="donor_user_street">Street address *</label>
+                            <input asp-for="donor_user_street" placeholder="123 Main Street" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_city">City *</label>
+                            <input asp-for="donor_user_city" placeholder="City" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_state">State *</label>
+                            <input asp-for="donor_user_state" placeholder="State" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_zip">Zip code *</label>
+                            <input asp-for="donor_user_zip" placeholder="Postal code" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_country">Country *</label>
+                            <input asp-for="donor_user_country" placeholder="Country" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="donor_user_pwd">Password *</label>
+                            <input asp-for="donor_user_pwd" type="password" placeholder="Create a password" required>
+                        </div>
+                    </div>
+
+                    <h3 class="uf-section-title">Preferences</h3>
+                    <div class="uf-grid">
+                        <div class="uf-field">
+                            <label asp-for="fundingType">Funding type *</label>
+                            <select asp-for="fundingType">
+                                <option value="">Select funding type</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="paymentType">Payment type *</label>
+                            <select asp-for="paymentType">
+                                <option value="">Select payment type</option>
+                                <option value="upi">UPI</option>
+                                <option value="credit-debit-card">Credit / Debit card</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="uf-security">
+                        <h3>Security questions</h3>
+                        <p>Answer all three questions. You'll use these to recover your account.</p>
+                        <div class="uf-field">
+                            <label asp-for="childhood_pet">1. What was the name of your childhood pet?</label>
+                            <input asp-for="childhood_pet" placeholder="Your answer" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="vacation_destination">2. What is your dream vacation destination?</label>
+                            <input asp-for="vacation_destination" placeholder="Your answer" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="favourite_hobby">3. What is your favourite hobby?</label>
+                            <input asp-for="favourite_hobby" placeholder="Your answer" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="uf-btn">Create account</button>
+                </form>
+                <p class="uf-auth__alt">Already have an account? <a href="/Donor/Login">Sign in</a></p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

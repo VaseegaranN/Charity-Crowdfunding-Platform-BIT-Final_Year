@@ -1,0 +1,164 @@
+@{
+    ViewData["Title"] = "NGO Dashboard";
+    Layout = null;
+    var ngo = ViewBag.Ngo as UnityFunds.Web.Models.NgoDetails;
+    var posts = ViewBag.Posts as List<UnityFunds.Web.Models.NgoPostDetail> ?? new List<UnityFunds.Web.Models.NgoPostDetail>();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/css/portal-dashboard.css" asp-append-version="true"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="/css/unityfunds-refresh.css" />
+</head>
+<body class="uf-portal uf-portal-ngo">
+    <div id="nav-bar">
+        <div id="nav-header"><a id="nav-title" href="/Ngo/Landing">UnityFunds</a><hr style="border-color:#333;margin-top:15px;"></div>
+        <div id="nav-content">
+            <button class="nav-button active" data-tab="profile"><i class="fas fa-user"></i><span>Profile</span></button>
+            <button class="nav-button" data-tab="create"><i class="fas fa-plus"></i><span>Create Post</span></button>
+            <button class="nav-button" data-tab="campaigns"><i class="fas fa-users"></i><span>Create Campaigns</span></button>
+            <button class="nav-button" data-tab="activity"><i class="fas fa-receipt"></i><span>Your Activity</span></button>
+            <button class="nav-button" data-tab="faq"><i class="fas fa-question"></i><span>FAQ - HELP</span></button>
+        </div>
+        <div style="position:absolute;bottom:20px;left:20px;">
+            <div class="nav-button"><a href="/Ngo/Logout" style="color:#aaa;text-decoration:none;"><i class="fas fa-sign-out-alt"></i><span> Logout</span></a></div>
+        </div>
+    </div>
+    <div class="portal-mobile-backdrop" onclick="document.body.classList.remove('portal-nav-open')"></div>
+    <div class="main-content">
+        <div class="portal-topbar">
+        <div class="portal-topbar-left">
+            <button class="portal-menu-toggle" type="button" aria-label="Toggle navigation" onclick="document.body.classList.toggle('portal-nav-open')">☰</button>
+            <div><span class="portal-kicker">UNITYFUNDS / NGO</span><strong class="portal-page-title">Ngo Workspace</strong></div>
+        </div>
+        <div class="portal-user"><span class="portal-avatar">N</span><span>@(ngo?.ngo_user_name ?? "NGO")</span></div>
+    </div>
+        <h1>Welcome, @(ngo?.ngo_user_name ?? "NGO")!</h1>
+
+        <div class="stat-row">
+            <div class="stat"><div class="n">@posts.Count</div><div class="t">Your Posts</div></div>
+            <div class="stat"><div class="n">@posts.Count(p => p.ngo_post_type == "Campaign")</div><div class="t">Campaigns</div></div>
+            <div class="stat"><div class="n">@(ngo?.ngo_acc_req_status ?? "-")</div><div class="t">Account Status</div></div>
+            <div class="stat"><div class="n">@(string.IsNullOrWhiteSpace(ngo?.ngo_org_name) ? "-" : ngo.ngo_org_name)</div><div class="t">Organization</div></div>
+        </div>
+
+        <section id="tab-profile" class="tab-section active">
+            <div class="card">
+                <h2>NGO Profile</h2>
+                <div class="info-grid">
+                    <div class="info-item"><div class="label">User Name</div><div class="value">@ngo?.ngo_user_name</div></div>
+                    <div class="info-item"><div class="label">Position</div><div class="value">@ngo?.ngo_user_position</div></div>
+                    <div class="info-item"><div class="label">Phone</div><div class="value">@ngo?.ngo_user_phone</div></div>
+                    <div class="info-item"><div class="label">Email</div><div class="value">@ngo?.ngo_user_email</div></div>
+                    <div class="info-item"><div class="label">Organization</div><div class="value">@ngo?.ngo_org_name</div></div>
+                    <div class="info-item"><div class="label">Org Place</div><div class="value">@ngo?.ngo_org_place</div></div>
+                    <div class="info-item"><div class="label">Org Phone</div><div class="value">@ngo?.ngo_org_phone</div></div>
+                    <div class="info-item"><div class="label">Org Email</div><div class="value">@ngo?.ngo_org_mail</div></div>
+                    <div class="info-item"><div class="label">Account Status</div><div class="value">@ngo?.ngo_acc_req_status</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-create" class="tab-section">
+            <div class="card">
+                <h2>Create a Post</h2>
+                <p class="muted">Share updates and stories with the UnityFunds community.</p>
+                <form method="post" asp-controller="Ngo" asp-action="CreatePost">
+                    <label>Post Type</label>
+                    <select name="postType">
+                        <option value="General">General</option>
+                        <option value="Update">Update</option>
+                        <option value="Success Story">Success Story</option>
+                    </select>
+                    <label>Message</label>
+                    <textarea name="content" placeholder="What would you like to share?" required></textarea>
+                    <button type="submit" class="btn">Publish Post</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="tab-campaigns" class="tab-section">
+            <div class="card">
+                <h2>Create a Campaign</h2>
+                <p class="muted">Describe your campaign, its goal and the impact it will create.</p>
+                <form method="post" asp-controller="Ngo" asp-action="CreatePost">
+                    <input type="hidden" name="postType" value="Campaign" />
+                    <label>Campaign Details</label>
+                    <textarea name="content" placeholder="Campaign name, target amount, purpose and beneficiaries." required></textarea>
+                    <button type="submit" class="btn">Launch Campaign</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="tab-activity" class="tab-section">
+            <div class="card">
+                <h2>Your Activity</h2>
+                <p class="muted">Posts and campaigns created from your NGO account.</p>
+                @if (posts.Count == 0)
+                {
+                    <p class="muted">You have not created any posts yet. Use <strong>Create Post</strong> or <strong>Create Campaigns</strong> to get started.</p>
+                }
+                else
+                {
+                    foreach (var p in posts)
+                    {
+                        <div class="post">
+                            <div class="meta">
+                                @p.ngo_post_date &middot; @p.ngo_user_name
+                                <span class="tag">@p.ngo_post_type</span>
+                            </div>
+                            <div class="body">@p.ngo_post_desc</div>
+                        </div>
+                    }
+                }
+            </div>
+        </section>
+
+        <section id="tab-faq" class="tab-section">
+            <div class="card">
+                <h2>FAQ &amp; Help</h2>
+                <div class="faq-item">
+                    <h3>How does my account get approved?</h3>
+                    <p>After registration, an administrator reviews your NGO details and ID proof. Once approved you can log in.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How do I create a campaign?</h3>
+                    <p>Open <strong>Create Campaigns</strong>, describe the campaign and target amount, then launch it.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Where can I see my posts?</h3>
+                    <p>All posts and campaigns appear under <strong>Your Activity</strong>.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Need more help?</h3>
+                    <p>Contact the UnityFunds administrator through the home page.</p>
+                </div>
+            </div>
+        </section>
+        <div class="portal-footer">© 2026 UnityFunds · NGO workspace</div>
+    </div>
+
+    <script>
+        (function () {
+            var buttons = document.querySelectorAll('.nav-button[data-tab]');
+            var sections = document.querySelectorAll('.tab-section');
+            function show(tab) {
+                buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.tab === tab); });
+                sections.forEach(function (s) { s.classList.toggle('active', s.id === 'tab-' + tab); });
+            }
+            buttons.forEach(function (b) {
+                b.addEventListener('click', function () {
+                    show(b.dataset.tab);
+                    if (history.replaceState) history.replaceState(null, '', '#' + b.dataset.tab);
+                });
+            });
+            var hash = (location.hash || '').replace('#', '');
+            if (hash && document.getElementById('tab-' + hash)) show(hash);
+        })();
+    </script>
+</body>
+</html>

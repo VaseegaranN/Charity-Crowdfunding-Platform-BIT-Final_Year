@@ -1,0 +1,16 @@
+@model UnityFunds.Web.Models.PublicContactHelp
+@{ ViewData["Title"] = "Update Question"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+<div>
+        
+        <div class="container">
+            <h1>Update Question</h1>
+            <form method="post" asp-action="PublicHelpUpdate">
+                <input type="hidden" asp-for="pch_id" />
+                <label>User Name</label><input asp-for="pch_user_name" readonly />
+                <label>Question</label><textarea asp-for="pch_desc" readonly></textarea>
+                <label>Admin Reply</label><textarea asp-for="pch_admin_reply"></textarea>
+                <button type="submit" class="btn">Update Reply</button>
+            </form>
+        </div>
+    </div>

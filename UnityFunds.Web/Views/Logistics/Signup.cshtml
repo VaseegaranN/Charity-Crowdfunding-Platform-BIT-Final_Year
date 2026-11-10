@@ -1,0 +1,120 @@
+@model UnityFunds.Web.Models.LogisticsDetails
+@{
+    ViewData["Title"] = "Logistics Signup";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics Registration - UnityFunds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/unityfunds-refresh.css" />
+</head>
+<body class="uf-auth-page uf-role--logistics">
+    <main class="uf-auth">
+        <aside class="uf-auth__brand">
+            <a class="uf-auth__brand-top" href="/"><span class="uf-auth__mark">U</span> UnityFunds</a>
+            <div class="uf-auth__brand-body">
+                <span class="uf-auth__eyebrow">Logistics Portal</span>
+                <h1>Help every donation reach the right place.</h1>
+                <p>Register your logistics organisation to coordinate deliveries and support NGOs on the ground.</p>
+                <ul class="uf-auth__points">
+                    <li>Receive delivery requests</li>
+                    <li>Coordinate with NGOs</li>
+                    <li>Track shipments end to end</li>
+                </ul>
+            </div>
+            <div class="uf-auth__brand-foot">(c) UnityFunds</div>
+        </aside>
+        <section class="uf-auth__main">
+            <div class="uf-auth__card uf-auth__card--wide">
+                <div class="uf-auth__role-chip"><span class="uf-auth__role-dot"></span> Logistics registration</div>
+                <div class="uf-auth__head">
+                    <h2>Register your logistics team</h2>
+                    <p>Tell us about your organisation. Fields marked * are required.</p>
+                </div>
+                @if (ViewBag.Message != null)
+                {
+                    <div class="uf-alert uf-alert--success">@ViewBag.Message</div>
+                }
+                <form method="post" asp-action="Signup" enctype="multipart/form-data">
+                    <h3 class="uf-section-title">Contact person</h3>
+                    <div class="uf-grid">
+                        <div class="uf-field">
+                            <label asp-for="logistics_user_name">Full name *</label>
+                            <input asp-for="logistics_user_name" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_user_position">Position *</label>
+                            <input asp-for="logistics_user_position" placeholder="e.g. Coordinator" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_user_phone">Phone number *</label>
+                            <input asp-for="logistics_user_phone" type="tel" placeholder="+1 555 000 1234" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_user_email">Email address *</label>
+                            <input asp-for="logistics_user_email" type="email" placeholder="jane@logistics.org" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_user_pwd">Password *</label>
+                            <input asp-for="logistics_user_pwd" type="password" placeholder="Create a password" required>
+                        </div>
+                    </div>
+
+                    <h3 class="uf-section-title">Organisation</h3>
+                    <div class="uf-grid">
+                        <div class="uf-field">
+                            <label asp-for="logistics_org_name">Organisation name *</label>
+                            <input asp-for="logistics_org_name" placeholder="Organisation name" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_org_place">Organisation place *</label>
+                            <input asp-for="logistics_org_place" placeholder="City / region" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_org_phone">Organisation phone *</label>
+                            <input asp-for="logistics_org_phone" type="tel" placeholder="+1 555 000 1234" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="logistics_org_mail">Organisation email *</label>
+                            <input asp-for="logistics_org_mail" type="email" placeholder="contact@logistics.org" required>
+                        </div>
+                    </div>
+
+                    <h3 class="uf-section-title">Verification</h3>
+                    <div class="uf-field">
+                        <label for="logistics_id_image">Logistics ID image *</label>
+                        <input id="logistics_id_image" type="file" name="logistics_id_image" accept=".jpg,.jpeg,.png">
+                    </div>
+
+                    <div class="uf-security">
+                        <h3>Security questions</h3>
+                        <p>Answer all three questions. You'll use these to recover your account.</p>
+                        <div class="uf-field">
+                            <label asp-for="childhood_pet">1. What was the name of your childhood pet?</label>
+                            <input asp-for="childhood_pet" placeholder="Your answer" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="vacation_destination">2. What is your dream vacation destination?</label>
+                            <input asp-for="vacation_destination" placeholder="Your answer" required>
+                        </div>
+                        <div class="uf-field">
+                            <label asp-for="favourite_hobby">3. What is your favourite hobby?</label>
+                            <input asp-for="favourite_hobby" placeholder="Your answer" required>
+                        </div>
+                    </div>
+                    <p class="uf-note">Note: these questions are for security purposes. Please remember your answers.</p>
+
+                    <button type="submit" class="uf-btn">Register organisation</button>
+                </form>
+                <p class="uf-auth__alt">Already registered? <a href="/Logistics/Login">Sign in</a></p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+

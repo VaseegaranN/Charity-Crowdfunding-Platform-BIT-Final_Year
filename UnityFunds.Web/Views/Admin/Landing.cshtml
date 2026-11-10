@@ -1,0 +1,90 @@
+@{ ViewData["Title"] = "Admin Landing"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+<h2 class="dashboard-title">Welcome to UnityFunds Admin Dashboard</h2>
+            <p class="dashboard-sub">Overview of the platform. Click any card to open that section.</p>
+
+            <div class="stats-grid">
+                <a href="/Admin/UserManagement" class="stat-card">
+                    <div class="stat-icon">&#128101;</div>
+                    <div class="stat-value">@ViewBag.Donors</div>
+                    <div class="stat-label">Donors</div>
+                </a>
+                <a href="/Admin/NgoManage" class="stat-card">
+                    <div class="stat-icon">&#127970;</div>
+                    <div class="stat-value">@ViewBag.Ngos</div>
+                    <div class="stat-label">NGOs</div>
+                </a>
+                <a href="/Admin/LogisticsAccountRequests" class="stat-card">
+                    <div class="stat-icon">&#128666;</div>
+                    <div class="stat-value">@ViewBag.Logistics</div>
+                    <div class="stat-label">Logistics Partners</div>
+                </a>
+                <a href="/Admin/GovnManage" class="stat-card">
+                    <div class="stat-icon">&#127963;</div>
+                    <div class="stat-value">@ViewBag.GovStaff</div>
+                    <div class="stat-label">Govn Staff</div>
+                </a>
+                <a href="/Admin/ManageAllPosts" class="stat-card">
+                    <div class="stat-icon">&#128196;</div>
+                    <div class="stat-value">@(ViewBag.PublicPosts + ViewBag.NgoPosts + ViewBag.AdminPosts + ViewBag.GovnPosts)</div>
+                    <div class="stat-label">Total Posts</div>
+                </a>
+                <a href="/Admin/NgoAccountRequests" class="stat-card warn">
+                    <div class="stat-icon">&#9203;</div>
+                    <div class="stat-value">@ViewBag.PendingNgo</div>
+                    <div class="stat-label">Pending NGO Requests</div>
+                </a>
+                <a href="/Admin/LogisticsAccountRequests" class="stat-card warn">
+                    <div class="stat-icon">&#9203;</div>
+                    <div class="stat-value">@ViewBag.PendingLogistics</div>
+                    <div class="stat-label">Pending Logistics Requests</div>
+                </a>
+                <a href="/Admin/PublicHelp" class="stat-card">
+                    <div class="stat-icon">&#10067;</div>
+                    <div class="stat-value">@ViewBag.Questions</div>
+                    <div class="stat-label">Public Questions</div>
+                </a>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">Quick Actions</div>
+                <div class="quick-grid">
+                    <a href="/Admin/ManageAllPosts" class="quick-btn">Manage Posts</a>
+                    <a href="/Admin/NgoManage" class="quick-btn">Manage NGOs</a>
+                    <a href="/Admin/GovnManage" class="quick-btn">Govn Staff</a>
+                    <a href="/Admin/UserManagement" class="quick-btn">Users</a>
+                    <a href="/Admin/PublicHelp" class="quick-btn">Questions</a>
+                    <a href="/Admin/NgoAccountRequests" class="quick-btn">NGO Approval</a>
+                    <a href="/Admin/LogisticsAccountRequests" class="quick-btn">Logistics Approval</a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <span>Recent Public Questions</span>
+                    <a href="/Admin/PublicHelp">View all</a>
+                </div>
+                <div class="panel-body">
+                    @{
+                        var recent = ViewBag.RecentQuestions as List<UnityFunds.Web.Models.PublicContactHelp>;
+                    }
+                    @if (recent == null || recent.Count == 0)
+                    {
+                        <p class="muted">No public questions submitted yet.</p>
+                    }
+                    else
+                    {
+                        foreach (var q in recent)
+                        {
+                            <div class="question-row">
+                                <span class="q-user">@q.pch_user_name</span>
+                                <span class="muted" style="display:inline;padding:0;"> &middot; @q.pch_date</span><br />
+                                @q.pch_desc
+                                @if (!string.IsNullOrEmpty(q.pch_admin_reply))
+                                {
+                                    <br /><span style="color:#27ae60;">Reply: @q.pch_admin_reply</span>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            </div>

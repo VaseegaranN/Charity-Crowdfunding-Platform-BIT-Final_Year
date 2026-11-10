@@ -1,0 +1,20 @@
+@model UnityFunds.Web.Models.GovernmentStaffDetails
+@{ ViewData["Title"] = "Update Govn Staff"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+<div>
+        
+        <div class="container">
+            <h1>Update Govn Staff</h1>
+            <form method="post" asp-action="GovnUpdate">
+                <input type="hidden" asp-for="govn_staff_id" />
+                <label>Name</label><input asp-for="govn_staff_name" />
+                <label>Phone</label><input asp-for="govn_staff_phone" />
+                <label>Email</label><input asp-for="govn_staff_email" />
+                <label>Location</label><input asp-for="govn_staff_location" />
+                <label>New password (leave blank to keep current)</label><input asp-for="govn_staff_password" type="password" value="" autocomplete="new-password" />
+                <label>Department</label><input asp-for="govn_staff_work_dept" />
+                <label>New MPIN (leave blank to keep current)</label><input asp-for="govn_staff_mpin" value="" autocomplete="off" />
+                <button type="submit" class="btn">Update</button>
+            </form>
+        </div>
+    </div>

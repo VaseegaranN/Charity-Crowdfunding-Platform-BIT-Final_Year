@@ -1,0 +1,33 @@
+@model List<UnityFunds.Web.Models.GovernmentStaffDetails>
+@{ ViewData["Title"] = "Manage Govn Staff"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; int sn = 1; }
+
+<div class="container">
+        <h1>Manage Govn Staff</h1>
+        <table>
+            <tr><th>S.No</th><th>Staff ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Location</th><th>Department</th><th>Actions</th></tr>
+            @foreach(var s in Model)
+            {
+                <tr>
+                    <td>@(sn++)</td>
+                    <td>@s.govn_staff_id</td>
+                    <td>@s.govn_staff_name</td>
+                    <td>@s.govn_staff_phone</td>
+                    <td>@s.govn_staff_email</td>
+                    <td>@s.govn_staff_location</td>
+                    
+                    <td>@s.govn_staff_work_dept</td>
+                    
+                    <td>
+                        <a href="/Admin/GovnUpdate?id=@s.govn_staff_id" class="btn">Update</a>
+                        <form method="post" asp-action="GovnDelete" class="d-inline" onsubmit="return confirm('Delete?')"><input type="hidden" name="id" value="@s.govn_staff_id"/><button type="submit" class="btn btn-danger">Delete</button></form>
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="pagination">
+            @for(int p = 1; p <= (int)ViewBag.TotalPages; p++)
+            {
+                <a href="?page=@p" class="@(p==(int)ViewBag.CurrentPage?"active":"")">@p</a>
+            }
+        </div>
+    </div>

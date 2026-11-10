@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Manage Posts";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var selectedOption = (string)(ViewBag.SelectedOption ?? "public_posts");
+    int currentPage = (int)(ViewBag.CurrentPage ?? 1);
+    int totalPages = (int)(ViewBag.TotalPages ?? 1);
+}
+<div class="container">
+        <h1>Manage All Posts</h1>
+        <div class="options-container">
+            <a href="?option=public_posts" class="@(selectedOption=="public_posts"?"active":"")">Public Posts</a>
+            <a href="?option=ngo_post_details" class="@(selectedOption=="ngo_post_details"?"active":"")">NGO Posts</a>
+            <a href="?option=admin_posts" class="@(selectedOption=="admin_posts"?"active":"")">Admin Posts</a>
+            <a href="?option=govn_posts" class="@(selectedOption=="govn_posts"?"active":"")">Government Posts</a>
+        </div>
+        <p>Showing posts from: <strong>@selectedOption</strong></p>
+        @{ var posts = ViewBag.Posts as List<object>; }
+        @if (posts == null || posts.Count == 0)
+        {
+            <p style="text-align:center;color:#888;">No posts found.</p>
+        }
+        else
+        {
+            <table>
+                <tr><th>Post ID</th><th>User</th><th>Type</th><th>Description</th><th>Date</th><th>Actions</th></tr>
+                @foreach (dynamic p in posts)
+                {
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.User</td>
+                        <td>@p.Type</td>
+                        <td>@p.Description</td>
+                        <td>@p.Date</td>
+                        <td>
+                            <form method="post" asp-action="DeletePost" style="display:inline;">
+                                <input type="hidden" name="table" value="@selectedOption" />
+                                <input type="hidden" name="id_column" value="id" />
+                                <input type="hidden" name="id" value="@p.Id" />
+                                <button type="submit" class="delete-btn" onclick="return confirm('Delete this post?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        <div class="pagination">
+            @for(int p = 1; p <= totalPages; p++)
+            {
+                <a href="?option=@selectedOption&page=@p" class="@(p==currentPage?"active":"")">@p</a>
+            }
+        </div>
+    </div>

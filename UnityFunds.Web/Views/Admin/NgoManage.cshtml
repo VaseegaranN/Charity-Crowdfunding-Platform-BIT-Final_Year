@@ -1,0 +1,34 @@
+@model List<UnityFunds.Web.Models.NgoDetails>
+@{ ViewData["Title"] = "Manage NGOs"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; int sn = 1; }
+
+<div class="container">
+        <h1>Manage NGOs</h1>
+        <table>
+            <tr><th>S.No</th><th>NGO ID</th><th>Name</th><th>Position</th><th>Phone</th><th>Email</th><th>Org Name</th><th>Org Place</th><th>Org Phone</th><th>Org Email</th><th>Actions</th></tr>
+            @foreach(var ngo in Model)
+            {
+                <tr>
+                    <td>@(sn++)</td>
+                    <td>@ngo.ngo_id</td>
+                    <td>@ngo.ngo_user_name</td>
+                    <td>@ngo.ngo_user_position</td>
+                    <td>@ngo.ngo_user_phone</td>
+                    <td>@ngo.ngo_user_email</td>
+                    <td>@ngo.ngo_org_name</td>
+                    <td>@ngo.ngo_org_place</td>
+                    <td>@ngo.ngo_org_phone</td>
+                    <td>@ngo.ngo_org_mail</td>
+                    <td>
+                        <a href="/Admin/NgoUpdate?id=@ngo.ngo_id" class="btn">Update</a>
+                        <form method="post" asp-action="NgoDelete" class="d-inline" onsubmit="return confirm('Delete this NGO?')"><input type="hidden" name="id" value="@ngo.ngo_id"/><button type="submit" class="btn btn-danger">Delete</button></form>
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="pagination">
+            @for(int p = 1; p <= (int)ViewBag.TotalPages; p++)
+            {
+                <a href="?page=@p" class="@(p==(int)ViewBag.CurrentPage?"active":"")">@p</a>
+            }
+        </div>
+    </div>

@@ -1,0 +1,154 @@
+@{ ViewData["Title"] = "User Management"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+<div class="back-button">
+        
+    </div>
+    <div class="search-container">
+        <input type="text" id="searchInput" class="searchInput" placeholder="Search for names..">
+        <button onclick="searchTable()" class="search-button">Search</button>
+        <button onclick="clearSearch()" class="clear-button">Clear</button>
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">User Management</h1>
+
+        <!-- Gobi Users -->
+        <div class="user-table-container">
+            <h2>Gobi Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Phone Number</th>
+                        <th>Place</th>
+                        <th>Email</th>
+                        
+                        <th>Address</th>
+                        <th>Main Area</th>
+                        <th>Account Status</th>
+                        
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var gobiList = (List<UnityFunds.Web.Models.GobiUser>)ViewBag.GobiUsers; var gobiSn = 1; }
+                    @if (gobiList != null && gobiList.Count > 0)
+                    {
+                        @foreach (var u in gobiList)
+                        {
+                            <tr>
+                                <td>@(gobiSn++)</td>
+                                <td>@u.gobi_user_id</td>
+                                <td>@u.gobi_user_name</td>
+                                <td>@u.gobi_user_dob</td>
+                                <td>@u.gobi_user_phone_number</td>
+                                <td>@u.gobi_user_place</td>
+                                <td>@u.gobi_user_email</td>
+                                
+                                <td>@u.gobi_user_address</td>
+                                <td>@u.gobi_user_main_area</td>
+                                <td>@u.gobi_user_acc_status</td>
+                                
+                                <td>
+                                    <div><a href="/Admin/UserUpdate?table=gobi_users&id=@u.gobi_user_id" class="btn">Update</a></div>
+                                    <div><a href="/Admin/UserDelete?table=gobi_users&id=@u.gobi_user_id" class="btn-2" onclick="return confirm('Are you sure you want to delete this Profile?');">Delete</a></div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="11">No records found</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sathy Users -->
+        <div class="user-table-container">
+            <h2>Sathy Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Date of Birth</th>
+                        <th>Phone Number</th>
+                        <th>Place</th>
+                        <th>Email</th>
+                        
+                        <th>Address</th>
+                        <th>Main Area</th>
+                        <th>Account Status</th>
+                        
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var sathyList = (List<UnityFunds.Web.Models.SathyUser>)ViewBag.SathyUsers; var sathySn = 1; }
+                    @if (sathyList != null && sathyList.Count > 0)
+                    {
+                        @foreach (var u in sathyList)
+                        {
+                            <tr>
+                                <td>@(sathySn++)</td>
+                                <td>@u.sathy_user_id</td>
+                                <td>@u.sathy_user_name</td>
+                                <td>@u.sathy_user_dob</td>
+                                <td>@u.sathy_user_phone_number</td>
+                                <td>@u.sathy_user_place</td>
+                                <td>@u.sathy_user_email</td>
+                                
+                                <td>@u.sathy_user_address</td>
+                                <td>@u.sathy_user_main_area</td>
+                                <td>@u.sathy_user_acc_status</td>
+                                
+                                <td>
+                                    <div><a href="/Admin/UserUpdate?table=sathy_users&id=@u.sathy_user_id" class="btn">Update</a></div>
+                                    <div><a href="/Admin/UserDelete?table=sathy_users&id=@u.sathy_user_id" class="btn-2" onclick="return confirm('Are you sure you want to delete this Profile?');">Delete</a></div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="11">No records found</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function searchTable() {
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toUpperCase();
+            var tables = document.getElementsByClassName('user-table-container');
+            for (var j = 0; j < tables.length; j++) {
+                var table = tables[j].getElementsByTagName('table')[0];
+                var tr = table.getElementsByTagName('tr');
+                for (var i = 1; i < tr.length; i++) {
+                    var found = false;
+                    for (var col = 1; col < tr[i].cells.length - 1; col++) {
+                        var td = tr[i].getElementsByTagName('td')[col];
+                        if (td) {
+                            var txtValue = td.textContent || td.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) { found = true; break; }
+                        }
+                    }
+                    tr[i].style.display = found ? '' : 'none';
+                }
+            }
+        }
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            var tables = document.getElementsByClassName('user-table-container');
+            for (var j = 0; j < tables.length; j++) {
+                var tr = tables[j].getElementsByTagName('table')[0].getElementsByTagName('tr');
+                for (var i = 1; i < tr.length; i++) { tr[i].style.display = ''; }
+            }
+        }
+    </script>

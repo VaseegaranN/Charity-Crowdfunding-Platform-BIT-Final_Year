@@ -1,0 +1,62 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Admin Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - UnityFunds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/unityfunds-refresh.css" />
+</head>
+<body class="uf-auth-page uf-role--admin">
+    <main class="uf-auth uf-auth--center">
+        <aside class="uf-auth__brand">
+            <a class="uf-auth__brand-top" href="/"><span class="uf-auth__mark">U</span> UnityFunds</a>
+            <div class="uf-auth__brand-body">
+                <span class="uf-auth__eyebrow">Admin Console</span>
+                <h1>Keep the platform secure and trusted.</h1>
+                <p>Review accounts, oversee campaigns and keep UnityFunds running smoothly for everyone.</p>
+                <ul class="uf-auth__points">
+                    <li>Approve NGO and logistics accounts</li>
+                    <li>Review and publish campaigns</li>
+                    <li>Monitor platform analytics</li>
+                </ul>
+            </div>
+            <div class="uf-auth__brand-foot">(c) UnityFunds</div>
+        </aside>
+        <section class="uf-auth__main">
+            <div class="uf-auth__card">
+                <div class="uf-auth__role-chip"><span class="uf-auth__role-dot"></span> Admin workspace</div>
+                <div class="uf-auth__head">
+                    <h2>Admin sign in</h2>
+                    <p>Restricted access - administrators only.</p>
+                </div>
+                @if (ViewBag.Error != null)
+                {
+                    <div class="uf-alert uf-alert--error">@ViewBag.Error</div>
+                }
+                <form method="post" asp-action="Login">
+                    <div class="uf-field">
+                        <label for="username">Username</label>
+                        <input id="username" type="text" name="username" placeholder="Enter your username" autocomplete="username" required>
+                    </div>
+                    <div class="uf-field">
+                        <label for="user_email">Email address</label>
+                        <input id="user_email" type="email" name="user_email" placeholder="admin@example.com" autocomplete="email" required>
+                    </div>
+                    <div class="uf-field">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                    </div>
+                    <button type="submit" class="uf-btn">Sign in</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,25 @@
+@model List<UnityFunds.Web.Models.PublicContactHelp>
+@{ ViewData["Title"] = "Public Questions"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
+<div class="container">
+        <h1>Public Questions Review</h1>
+        <table>
+            <tr><th>User ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Location</th><th>Question</th><th>Date</th><th>Reply</th><th>Actions</th></tr>
+            @foreach(var p in Model)
+            {
+                <tr>
+                    <td>@p.pch_user_id</td><td>@p.pch_user_name</td><td>@p.pch_user_phone</td><td>@p.pch_user_email</td><td>@p.pch_user_location</td><td>@p.pch_desc</td><td>@p.pch_date</td><td>@p.pch_admin_reply</td>
+                    <td>
+                        <a href="/Admin/PublicHelpUpdate?id=@p.pch_id" class="btn">Update</a>
+                        <a href="/Admin/PublicHelpDelete?id=@p.pch_id" class="btn btn-danger" onclick="return confirm('Delete?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="pagination">
+            @for(int p = 1; p <= (int)ViewBag.TotalPages; p++)
+            {
+                <a href="?page=@p" class="@(p==(int)ViewBag.CurrentPage?"active":"")">@p</a>
+            }
+        </div>
+    </div>
