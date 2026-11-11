@@ -40,10 +40,67 @@ builder.Services.AddSession(options =>
 });
 
 // Database
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+// builder.Services.AddDbContext<AppDbContext>(options =>
+//     options.UseSqlServer(
+//         builder.Configuration.GetConnectionString("DefaultConnection")
+//     ));
+
+
+// var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (builder.Environment.IsProduction())
+{
+
+    var databaseUrl = builder.Configuration["DATABASE_URL"];
+
+    if (string.IsNullOrWhiteSpace(databaseUrl))
+    {
+        throw new InvalidOperationException(
+            "DATABASE_URL is missing from production configuration.");
+    }
+
+    if (!Uri.TryCreate(databaseUrl, UriKind.Absolute, out var databaseUri))
+    {
+        throw new InvalidOperationException(
+            "DATABASE_URL is not a valid PostgreSQL URL.");
+    }
+
+    var userInfo = databaseUri.UserInfo.Split(':', 2);
+
+    if (userInfo.Length != 2 ||
+        string.IsNullOrWhiteSpace(userInfo[0]) ||
+        string.IsNullOrWhiteSpace(userInfo[1]))
+    {
+        throw new InvalidOperationException(
+            "DATABASE_URL has invalid credentials.");
+    }
+
+    var connectionString =
+        new Npgsql.NpgsqlConnectionStringBuilder
+        {
+            Host = databaseUri.Host,
+            Port = databaseUri.Port > 0 ? databaseUri.Port : 5432,
+            Database = Uri.UnescapeDataString(
+                databaseUri.AbsolutePath.TrimStart('/')),
+            Username = Uri.UnescapeDataString(userInfo[0]),
+            Password = Uri.UnescapeDataString(userInfo[1]),
+            SslMode = Npgsql.SslMode.Require,
+            Pooling = true
+        }.ConnectionString;
+
+    builder.Services.AddDbContext<NeonAppDbContext>(options =>
+        options.UseNpgsql(connectionString));
+
+    builder.Services.AddScoped<AppDbContext>(sp =>
+        sp.GetRequiredService<NeonAppDbContext>());
+
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(
+            builder.Configuration.GetConnectionString("DefaultConnection")));
+}
+
 
 var app = builder.Build();
 

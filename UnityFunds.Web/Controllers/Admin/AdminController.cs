@@ -66,17 +66,33 @@ public class AdminController : Controller
 
     public async Task<IActionResult> CampaignReview()
     {
-        return View(await _context.Campaigns.AsNoTracking().OrderBy(c => c.CreatedAtUtc).ToListAsync());
+        var pendingCampaigns = await _context.Campaigns.AsNoTracking().Where(c => c.Status == "Pending").OrderBy(c => c.CreatedAtUtc).ToListAsync();
+        return View(pendingCampaigns);
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ReviewCampaign(int id, string decision)
     {
+        if (decision != "Approved" && decision != "Rejected")
+            return BadRequest("Invalid approval status.");
+
         var campaign = await _context.Campaigns.FindAsync(id);
-        if (campaign == null) return NotFound();
-        if (decision is not ("Approved" or "Rejected")) return BadRequest();
+
+        if (campaign == null)
+            return NotFound();
+
+        // Only pending campaigns can be reviewed.
+        if (campaign.Status != "Pending")
+            return BadRequest("This campaign has already been reviewed.");
+
         campaign.Status = decision;
+
         await _context.SaveChangesAsync();
+
+        TempData["CampaignReviewMessage"] =
+            $"Campaign successfully {decision.ToLowerInvariant()}.";
+
         return RedirectToAction(nameof(CampaignReview));
     }
 
@@ -272,31 +288,70 @@ public class AdminController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> UserUpdate(string table, Models.GobiUser gobiModel, Models.SathyUser sathyModel)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UserUpdate(
+        string table,
+        Models.GobiUser gobiModel,
+        Models.SathyUser sathyModel)
     {
         if (table == "gobi_users")
         {
-            var existing = await _context.GobiUsers.FindAsync(gobiModel.gobi_user_id);
-            if (existing == null) return NotFound();
+            var existing = await _context.GobiUsers
+                .FindAsync(gobiModel.gobi_user_id);
+
+            if (existing == null)
+                return NotFound();
+
+            // Preserve existing password when the field is blank.
             if (string.IsNullOrWhiteSpace(gobiModel.gobi_user_password))
+            {
                 gobiModel.gobi_user_password = existing.gobi_user_password;
+            }
+            else
+            {
+                gobiModel.gobi_user_password =
+                    _passwords.Hash(gobiModel.gobi_user_password);
+            }
+
+            // Preserve existing MPIN when the field is blank.
             if (string.IsNullOrWhiteSpace(gobiModel.gobi_user_mpin))
                 gobiModel.gobi_user_mpin = existing.gobi_user_mpin;
+
             _context.Entry(existing).CurrentValues.SetValues(gobiModel);
         }
         else if (table == "sathy_users")
         {
-            var existing = await _context.SathyUsers.FindAsync(sathyModel.sathy_user_id);
-            if (existing == null) return NotFound();
+            var existing = await _context.SathyUsers
+                .FindAsync(sathyModel.sathy_user_id);
+
+            if (existing == null)
+                return NotFound();
+
             if (string.IsNullOrWhiteSpace(sathyModel.sathy_user_password))
+            {
                 sathyModel.sathy_user_password = existing.sathy_user_password;
+            }
+            else
+            {
+                sathyModel.sathy_user_password =
+                    _passwords.Hash(sathyModel.sathy_user_password);
+            }
+
             if (string.IsNullOrWhiteSpace(sathyModel.sathy_user_mpin))
                 sathyModel.sathy_user_mpin = existing.sathy_user_mpin;
+
             _context.Entry(existing).CurrentValues.SetValues(sathyModel);
         }
+        else
+        {
+            return BadRequest("Invalid user table.");
+        }
+
         await _context.SaveChangesAsync();
+
         return RedirectToAction(nameof(UserManagement));
     }
+
 
     public async Task<IActionResult> UserDelete(string table, int id)
     {
@@ -354,10 +409,16 @@ public class AdminController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ApproveNgo(string id, string status)
     {
+        if (status != "Approved" && status != "Rejected") return BadRequest("Invalid approval status.");
+
         var ngo = await _context.NgoDetails.FindAsync(id);
-        if (ngo != null) { ngo.ngo_acc_req_status = status; await _context.SaveChangesAsync(); }
+        if (ngo == null) return NotFound();
+        ngo.ngo_acc_req_status = status;
+
+        await _context.SaveChangesAsync();
         return RedirectToAction(nameof(NgoAccountRequests));
     }
 

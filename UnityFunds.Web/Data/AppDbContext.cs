@@ -5,7 +5,7 @@ namespace UnityFunds.Web.Data;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public AppDbContext(DbContextOptions options) : base(options) { }
 
     public DbSet<AdminDetails> AdminDetails => Set<AdminDetails>();
     public DbSet<DonorDetails> DonorDetails => Set<DonorDetails>();
@@ -27,16 +27,32 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<AdminDetails>().Property(a => a.admin_id).UseIdentityColumn();
-        modelBuilder.Entity<DonorDetails>().Property(d => d.donor_id).UseIdentityColumn();
-        modelBuilder.Entity<PublicContactHelp>().Property(p => p.pch_id).UseIdentityColumn();
-        modelBuilder.Entity<UserReport>().Property(u => u.id).UseIdentityColumn();
-        modelBuilder.Entity<GobiUser>().Property(u => u.gobi_user_id).UseIdentityColumn();
-        modelBuilder.Entity<SathyUser>().Property(u => u.sathy_user_id).UseIdentityColumn();
-        modelBuilder.Entity<Campaign>().HasIndex(c => new { c.Status, c.CreatedAtUtc });
-        modelBuilder.Entity<Campaign>().HasIndex(c => c.NgoId);
-        modelBuilder.Entity<Donation>().HasIndex(d => new { d.CampaignId, d.Status });
-        modelBuilder.Entity<Donation>().HasIndex(d => new { d.DonorId, d.CreatedAtUtc });
-        modelBuilder.Entity<Donation>().HasOne<Campaign>().WithMany().HasForeignKey(d => d.CampaignId).OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<Campaign>()
+            .HasIndex(c => new { c.Status, c.CreatedAtUtc });
+
+        modelBuilder.Entity<Campaign>()
+            .HasIndex(c => c.NgoId);
+
+        modelBuilder.Entity<Donation>()
+            .HasIndex(d => new { d.CampaignId, d.Status });
+
+        modelBuilder.Entity<Donation>()
+            .HasIndex(d => new { d.DonorId, d.CreatedAtUtc });
+
+        modelBuilder.Entity<Donation>()
+            .HasIndex(d => d.PaymentReference)
+            .IsUnique();
+
+        modelBuilder.Entity<Donation>()
+            .HasOne<Campaign>()
+            .WithMany()
+            .HasForeignKey(d => d.CampaignId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Donation>()
+            .HasOne<DonorDetails>()
+            .WithMany()
+            .HasForeignKey(d => d.DonorId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

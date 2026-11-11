@@ -1,3 +1,48 @@
 @model IReadOnlyList<UnityFunds.Web.Models.Campaign>
-@{ ViewData["Title"]="Campaign review"; Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
-<div class="container py-5"><h1>Campaign review</h1><p class="text-muted">Review NGO-submitted campaigns before public listing.</p><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Campaign</th><th>NGO</th><th>Goal</th><th>Status</th><th>Submitted</th><th>Decision</th></tr></thead><tbody>@foreach(var c in Model){<tr><td><strong>@c.Title</strong><div class="small text-muted">@c.Category · @c.Description</div></td><td>@c.NgoName</td><td>₹@c.GoalAmount.ToString("N2")</td><td>@c.Status</td><td>@c.CreatedAtUtc.ToString("d")</td><td><form asp-action="ReviewCampaign" method="post" class="d-flex gap-2"><input type="hidden" name="id" value="@c.Id"/><button name="decision" value="Approved" class="btn btn-sm btn-success">Approve</button><button name="decision" value="Rejected" class="btn btn-sm btn-outline-danger">Reject</button></form></td></tr>}</tbody></table></div></div>
+@{
+    ViewData["Title"] = "Campaign review"; Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container py-5">
+    <h1>Campaign review</h1>
+    <p class="text-muted">Review NGO-submitted campaigns before public listing.</p>
+    
+    @if (TempData["CampaignReviewMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["CampaignReviewMessage"]
+        </div>
+    }
+    
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Campaign</th>
+                    <th>NGO</th>
+                    <th>Goal</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                    <th>Decision</th>
+                </tr>
+            </thead>
+            <tbody>@foreach(var c in Model){
+                <tr>
+                    <td><strong>@c.Title</strong>
+                        <div class="small text-muted">@c.Category · @c.Description</div>
+                    </td>
+                    <td>@c.NgoName</td>
+                    <td>₹@c.GoalAmount.ToString("N2")</td>
+                    <td>@c.Status</td>
+                    <td>@c.CreatedAtUtc.ToString("d")</td>
+                    <td>
+                        <form asp-action="ReviewCampaign" method="post" class="d-flex gap-2"><input type="hidden"
+                                                                                                        name="id" value="@c.Id" /><button name="decision" value="Approved"
+                                                              class="btn btn-sm btn-success">Approve</button><button name="decision" value="Rejected"
+                                                                                   class="btn btn-sm btn-outline-danger">Reject</button></form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

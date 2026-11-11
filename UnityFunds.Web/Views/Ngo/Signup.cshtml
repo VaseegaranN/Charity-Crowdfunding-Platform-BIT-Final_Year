@@ -1,4 +1,4 @@
-@model UnityFunds.Web.Models.NgoDetails
+@model UnityFunds.Web.Models.ViewModels.NgoSignupViewModel
 @{
     ViewData["Title"] = "NGO Signup";
     Layout = null;
@@ -87,8 +87,12 @@
 
                     <h3 class="uf-section-title">Verification</h3>
                     <div class="uf-field">
-                        <label for="ngo_id_image">NGO ID image *</label>
-                        <input id="ngo_id_image" type="file" name="ngo_id_image" accept=".jpg,.jpeg,.png">
+                        <label asp-for="ngo_id_image">NGO ID image *</label>
+                        <input asp-for="ngo_id_image"
+                            type="file"
+                            accept=".jpg,.jpeg,.png"
+                            required>
+                        <span asp-validation-for="ngo_id_image"></span>
                     </div>
 
                     <div class="uf-security">

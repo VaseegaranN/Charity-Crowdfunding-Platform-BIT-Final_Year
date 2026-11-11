@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UnityFunds.Web.Data;
 using UnityFunds.Web.Models;
 using UnityFunds.Web.Services;
+using UnityFunds.Web.Models.ViewModels;
 
 namespace UnityFunds.Web.Controllers.Donor;
 
@@ -13,15 +14,63 @@ public class DonorController : Controller
     private readonly PasswordService _passwords;
     public DonorController(AppDbContext context, PasswordService passwords) { _context = context; _passwords = passwords; }
 
-    public IActionResult Signup() => View();
+    public IActionResult Signup()
+    {
+        return View(new DonorSignupViewModel());
+    }
 
     [HttpPost]
-    public async Task<IActionResult> Signup(DonorDetails model)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Signup(DonorSignupViewModel model)
     {
-        model.donor_user_pwd = _passwords.Hash(model.donor_user_pwd);
-        _context.DonorDetails.Add(model);
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var email = model.donor_user_email.Trim().ToLowerInvariant();
+        var username = model.donor_user_name.Trim();
+
+        var alreadyExists = await _context.DonorDetails.AnyAsync(d =>
+            d.donor_user_email.ToLower() == email ||
+            d.donor_user_name.ToLower() == username.ToLower());
+
+        if (alreadyExists)
+        {
+            ModelState.AddModelError(
+                nameof(model.donor_user_email),
+                "An account with this email or username already exists.");
+
+            return View(model);
+        }
+
+        var donor = new DonorDetails
+        {
+            donor_user_name = username,
+            donor_user_email = email,
+            donor_user_phone = model.donor_user_phone.Trim(),
+            donor_user_gender = model.donor_user_gender,
+            donor_user_street = model.donor_user_street.Trim(),
+            donor_user_city = model.donor_user_city.Trim(),
+            donor_user_state = model.donor_user_state.Trim(),
+            donor_user_zip = model.donor_user_zip.Trim(),
+            donor_user_country = model.donor_user_country.Trim(),
+
+            donor_user_pwd = _passwords.Hash(model.donor_user_pwd),
+
+            fundingType = model.fundingType,
+            paymentType = model.paymentType,
+
+            childhood_pet = model.childhood_pet,
+            vacation_destination = model.vacation_destination,
+            favourite_hobby = model.favourite_hobby,
+
+            donationAmount = "-",
+            upiId = "-"
+        };
+
+        _context.DonorDetails.Add(donor);
         await _context.SaveChangesAsync();
-        return RedirectToAction("Login");
+
+        return RedirectToAction(nameof(Login));
     }
 
     public IActionResult Login() => View();
@@ -31,7 +80,7 @@ public class DonorController : Controller
     public async Task<IActionResult> Login(string email, string password)
     {
         email = (email ?? string.Empty).Trim();
-        password = (password ?? string.Empty).Trim();
+        password = password ?? string.Empty;
 
         var donor = await _context.DonorDetails.FirstOrDefaultAsync(x => (x.donor_user_email == email || x.donor_user_name == email));
         if (donor == null || !_passwords.VerifyAndUpgrade(donor.donor_user_pwd, password, out var upgradedPassword)) { ViewBag.Error = "Invalid credentials."; return View(); }

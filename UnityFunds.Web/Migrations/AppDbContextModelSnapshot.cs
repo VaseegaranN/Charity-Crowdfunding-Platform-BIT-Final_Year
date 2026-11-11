@@ -8,7 +8,7 @@ using UnityFunds.Web.Data;
 
 #nullable disable
 
-namespace UnityFunds.Web.Migrations
+namespace UnityFunds.Web.Migrations.SqlServerContext
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -202,6 +202,9 @@ namespace UnityFunds.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PaymentReference")
+                        .IsUnique();
+
                     b.HasIndex("CampaignId", "Status");
 
                     b.HasIndex("DonorId", "CreatedAtUtc");
@@ -217,15 +220,7 @@ namespace UnityFunds.Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("donor_id"));
 
-                    b.Property<string>("cardNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("childhood_pet")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("cvCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -270,10 +265,6 @@ namespace UnityFunds.Web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("donor_user_zip")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("expiry")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -790,6 +781,12 @@ namespace UnityFunds.Web.Migrations
                     b.HasOne("UnityFunds.Web.Models.Campaign", null)
                         .WithMany()
                         .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("UnityFunds.Web.Models.DonorDetails", null)
+                        .WithMany()
+                        .HasForeignKey("DonorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

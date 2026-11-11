@@ -22,9 +22,6 @@ public class DonorDetails
     public string donationAmount { get; set; } = "-";
     public string paymentType { get; set; } = string.Empty;
     public string upiId { get; set; } = "-";
-    public string cardNumber { get; set; } = "-";
-    public string expiry { get; set; } = "-";
-    public string cvCode { get; set; } = "-";
     public string childhood_pet { get; set; } = "-";
     public string vacation_destination { get; set; } = "-";
     public string favourite_hobby { get; set; } = "-";
